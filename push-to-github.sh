@@ -3,7 +3,7 @@ cd `dirname $0`
 rm `find . -name \*~ -type f | grep -v ./.git` 
 t=/tmp/push2github$$.txt
 find . -type f |grep -v ./.git |grep -v ./dependencies > $t
-ls ./dependencies/*{.tar.gz,.sh} >> $t 
+ls ./dependencies/*{.tar.gz,.zip,.sh} >> $t 
 #git remote add origin git@github.com:NumCracker/core.git
 git add `cat $t`
 rm $t
