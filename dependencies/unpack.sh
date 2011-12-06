@@ -1,21 +1,25 @@
 #!/bin/bash
-
-for i in *gz
+rm -rf ndk avro nginx tzdata tzcode sqlite
+p=`pwd`
+for i in *gz *zip
 do 
-    d=`echo $i|sed s/.tar.gz//`;
-    grep $d .gitignore || echo $d >> .gitignore
-    rm -rf $d
-    tar xfz $i
-    cd $d
-      if [ -e ./configure ] ; then
-	 (./configure && make ) || exit -1
-      else
-         mkdir build
-	 cd build
-	 (cmake .. && make && make test) || exit -1
-	 cd ..
-      fi
-    cd ..
-done 
+   case $i in 
+      tzcode*) mkdir tzcode;cd tzcode; tar xfz ../$i;;
+      tzdata*) mkdir tzdata;cd tzdata; tar xfz ../$i;;
+      *.zip) unzip $i;;
+      *) tar xfz $i;;
+   esac
+   cd $p
+done
+for i in `find . -type d -maxdepth 1 -mindepth 1`
+do
+    case $i in 
+	./avro*) mv $i avro;cd avro;mkdir build;cd build;(cmake .. && make && make test) || exit -1;;
+	./sqlite*) mv $i sqlite; cd sqlite; (./configure && make ) || exit -1;;
+	./simpl-ngx_devel_kit*) mv $i ndk;;
+	./nginx*) mv $i nginx; cd nginx; (./configure && make ) || exit -1;;
+    esac
+    cd $p
+done
 echo Success
 exit 0
