@@ -22,4 +22,5 @@ do
     cd $p
 done
 echo Success
+touch success.flag
 exit 0
