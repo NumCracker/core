@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -rf ndk avro nginx tzdata tzcode sqlite
+rm -rf success.flag ndk avro nginx tzdata tzcode sqlite
 p=`pwd`
 for i in *gz *zip
 do 
